@@ -108,8 +108,10 @@ def eventBtn(alias, type, ordered, user_id=None):
                 event_text = "Записаться"
 
             btn = KeyboardButton(f"{event_text} (ID: {alias[0]})")
-
-    back_txt = system.getlocalize(user_id=user_id, alias="back")
+    if user_id is None:
+        back_txt = "Назад"
+    else:
+        back_txt = system.getlocalize(user_id=user_id, alias="back")
     back = KeyboardButton(back_txt)
 
     btns_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
