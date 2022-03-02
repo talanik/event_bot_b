@@ -62,14 +62,22 @@ cancel_button = KeyboardButton('/start')
 start_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)\
     .add(cancel_button)
 
-def titles(titles):
+def titles(titles, user_id=None):
 
+    system = SYSTEM()
+    print(user_id)
     contact_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True) \
 
     for title in titles:
         contact_markup.add(KeyboardButton(title))
 
-    contact_markup.add(KeyboardButton('Назад'))
+    if user_id is None:
+        back_txt = "Назад"
+    else:
+        back_txt = system.getlocalize(user_id=user_id, alias="back")
+
+
+    contact_markup.add(KeyboardButton(back_txt))
 
     return contact_markup
 

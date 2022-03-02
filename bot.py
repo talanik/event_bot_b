@@ -272,7 +272,7 @@ async def toOrder(message: types.Message, state: FSMContext):
 
     if message.text==system.getlocalize(user_id=message.from_user.id,alias='back'):
         btns_main = mainBtns(lang=message.from_user.id)
-
+        print(message.text)
         await bot.send_message(
             chat_id=message.chat.id,
             text=message.text,
@@ -304,15 +304,13 @@ async def toOrder(message: types.Message, state: FSMContext):
         await bot.send_message(
             chat_id=message.chat.id,
             text=system.getlocalize(alias='not_subscribe', user_id=message.from_user.id),
-            reply_markup=eventBtn(res, 'user', False)
+            reply_markup=eventBtn(event_id, 'user', False)
         )
-
 
     elif "Подписчики" in message.text:
 
         current_event = message.text.split(" ID: ")
         event_id = current_event[1]
-
         try:
 
             user_id = message.from_user.id

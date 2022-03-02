@@ -107,8 +107,6 @@ class EVENT():
 
         requests.get(f"https://api.telegram.org/bot{token}/sendPhoto?chat_id={chat_id}&photo={event[5]}&reply_markup={event_btns}&caption={text}")
 
-        text = ""
-
 
     def event(self, chat_id, user_id, token, poll='admin'):
 
@@ -118,27 +116,16 @@ class EVENT():
             closed=False
         )
 
-
-        lang = self.system.getLang(user_id=user_id)
-        eventDescLang = self.system.getEventDescLang(user_id=user_id)
-
-        text = ''
-
-        columns = self.db.getColumns('events')
-
-        eventDescription = columns.index(f"event_desc{eventDescLang}")
-
-        main = mainBtns(lang=user_id)
-
         if len(events)>=1:
-            btns = titles(self.event_titles(user_id=chat_id, poll=poll))
+            btns = titles(self.event_titles(user_id=user_id, poll=poll), user_id=user_id)
             text = "Выберите событие"
             requests.get(f"https://api.telegram.org/bot{token}/sendMessage?chat_id={chat_id}&text={text}&reply_markup={btns}")
 
         else:
 
+            btns = titles(self.event_titles(user_id=user_id, poll=poll), user_id=user_id)
             text = "Активных событий нет"
-            requests.get(f"https://api.telegram.org/bot{token}/sendMessage?chat_id={chat_id}&text={text}&reply_markup={main}")
+            requests.get(f"https://api.telegram.org/bot{token}/sendMessage?chat_id={chat_id}&text={text}&reply_markup={btns}")
 
 
     def myEvents(self, chat_id, user_id, token, poll='admin'):
