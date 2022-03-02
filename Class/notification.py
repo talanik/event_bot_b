@@ -1,5 +1,6 @@
 import datetime
 import locale
+from datetime import timedelta
 
 from datetime import datetime
 
@@ -57,16 +58,19 @@ class NOTIFICATION():
 
     def remind(self):
 
-        date = datetime.now()
-        hour = date.time().hour
+        today = datetime.now()
+        hour = int(today.timestamp())
 
-        max = hour+(23-hour)*3600
+        delta = datetime.combine(datetime.now().date() + timedelta(days=1),
+                                 datetime.strptime("0000", "%H%M").time()) - datetime.now()
+
+        max = hour + int(delta.seconds)
 
         conditions = {}
 
         conditions['event_date'] = {}
 
-        conditions['event_date'][0] = int(date.timestamp())
+        conditions['event_date'][0] = int(today.timestamp())
         conditions['event_date'][1] = '>'
 
         events = self.db.fetchall(
@@ -80,8 +84,7 @@ class NOTIFICATION():
 
             date = datetime.fromtimestamp(int(ev[1]))
 
-            if hour < date.hour < max:
-
+            if hour < int(date.timestamp()) < max:
                 users = self.db.fetchall(
                     table='orders',
                     columns=['user_id'],

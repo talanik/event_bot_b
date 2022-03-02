@@ -53,14 +53,7 @@ cursor.execute("""CREATE TABLE if not exists agents (
                                                         department text, 
                                                         fio text
                                                     )""")
-# cursor.execute("""UPDATE events SET sended=0""")
 conn.commit()
 
 
-
 conn.close()
-
-d = DB()
-r = d.fetchall('users')
-for i in r:
-    print(i)
