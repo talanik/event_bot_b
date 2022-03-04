@@ -58,7 +58,7 @@ async def everyDayNotify():
 
 
 async def scheduler():
-    aioschedule.every().day.at("08:00").do(everyDayNotify)
+    aioschedule.every().day.at("05:00").do(everyDayNotify)
 
     while True:
         await aioschedule.run_pending()
